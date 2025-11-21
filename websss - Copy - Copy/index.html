@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline Communication Hub</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-bar {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .status-item {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .gps-status {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .gps-status.active {
+            background: #d3f9d8;
+            color: #2b8a3e;
+        }
+
+        .user-info {
+            background: #e7f5ff;
+            color: #1971c2;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            background: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Map Section */
+        .map-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        #map {
+            height: 500px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+        }
+
+        /* Chat Section */
+        .chat-container {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .message {
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            max-width: 70%;
+        }
+
+        .message.sent {
+            background: #667eea;
+            color: white;
+            margin-left: auto;
+        }
+
+        .message.received {
+            background: white;
+            border: 1px solid #e0e0e0;
+        }
+
+        .message-info {
+            font-size: 11px;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .chat-input button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* SOS Section */
+        .sos-container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .sos-button {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b6b 0%, #c92a2a 100%);
+            color: white;
+            border: 8px solid white;
+            box-shadow: 0 8px 16px rgba(201, 42, 42, 0.4);
+            font-size: 48px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 30px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sos-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 24px rgba(201, 42, 42, 0.6);
+        }
+
+        .sos-button:active {
+            transform: scale(0.95);
+        }
+
+        .sos-alerts {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+
+        .sos-alert {
+            padding: 15px;
+            background: #fff3bf;
+            border-left: 4px solid #ff6b6b;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        /* Green Spot Form */
+        .spot-form {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+
+        .location-preview {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 5px;
+            font-size: 13px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .tab-btn {
+                font-size: 14px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>
+                <span>📱</span>
+                <span>Offline Communication Hub</span>
+            </h1>
+            <div class="status-bar">
+                <div class="status-item gps-status" id="location-status">
+                    📍 Waiting for GPS...
+                </div>
+                <div class="status-item user-info" id="user-display">
+                    👤 User: <span id="current-username">Loading...</span>
+                </div>
+                <div class="status-item" style="background: #e9ecef; color: #495057;">
+                    📊 Status: <span id="online-status">Offline</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Tab Navigation -->
+        <div class="tab-nav">
+            <button class="tab-btn active" onclick="switchTab('map')">
+                🗺️ Green Spots
+            </button>
+            <button class="tab-btn" onclick="switchTab('chat')">
+                💬 Messages
+            </button>
+            <button class="tab-btn" onclick="switchTab('sos')">
+                🚨 SOS Alerts
+            </button>
+        </div>
+
+        <!-- Map Tab -->
+        <div id="map-tab" class="tab-content active">
+            <div class="map-section">
+                <h2 style="color: #667eea; margin-bottom: 15px;">🌍 Interactive Map - Green Spots</h2>
+                <div id="map"></div>
+            </div>
+
+            <div class="spot-form">
+                <h2 style="color: #667eea; margin-bottom: 15px;">➕ Mark New Green Spot</h2>
+                <form id="spot-form">
+                    <div class="form-group">
+                        <label>📝 Spot Name/Description</label>
+                        <input type="text" id="spot-description" placeholder="e.g., Community Center" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>🏷️ Category</label>
+                        <select id="spot-category" required>
+                            <option value="safe-zone">🛡️ Safe Zone</option>
+                            <option value="medical">🏥 Medical Facility</option>
+                            <option value="food">🍽️ Food/Water</option>
+                            <option value="shelter">🏠 Shelter</option>
+                            <option value="communication">📡 Communication Hub</option>
+                            <option value="meeting">🤝 Meeting Point</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>📋 Additional Notes (Optional)</label>
+                        <textarea id="spot-notes" placeholder="e.g., Open 24/7, Has generator"></textarea>
+                    </div>
+
+                    <div class="location-preview" id="spot-location-preview">
+                        📍 Waiting for GPS location...
+                    </div>
+
+                    <button type="submit" class="btn-primary">
+                        📍 Mark Spot at My Location
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Chat Tab -->
+        <div id="chat-tab" class="tab-content">
+            <div class="chat-container">
+                <h2 style="color: #667eea; margin-bottom: 15px;">💬 Offline Messages</h2>
+                <div class="messages" id="messages-container">
+                    <p style="text-align: center; color: #999; padding: 20px;">
+                        No messages yet. Start a conversation!
+                    </p>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="message-input" placeholder="Type your message..." onkeypress="if(event.key==='Enter') sendMessage()">
+                    <button onclick="sendMessage()">📤 Send</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SOS Tab -->
+        <div id="sos-tab" class="tab-content">
+            <div class="sos-container">
+                <h2 style="color: #ff6b6b; margin-bottom: 15px;">🚨 Emergency SOS</h2>
+                <p style="color: #666; margin-bottom: 20px;">
+                    Press the button below to send an emergency SOS alert with your location to all users.
+                </p>
+                
+                <button class="sos-button" onclick="sendSOS()">
+                    SOS
+                </button>
+
+                <p style="color: #999; font-size: 14px;">
+                    Your current location will be broadcast to all users in the network.
+                </p>
+
+                <div class="sos-alerts" id="sos-alerts-container">
+                    <h3 style="color: #667eea; margin: 20px 0;">Recent SOS Alerts</h3>
+                    <p style="text-align: center; color: #999; padding: 20px;">
+                        No SOS alerts yet.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
