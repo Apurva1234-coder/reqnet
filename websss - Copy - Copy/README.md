@@ -1,17 +1,17 @@
-# 🗺️ Green Spot Mapper - User Guide
+#  Green Spot Mapper - User Guide
 
-## 🎯 What This Does
+##  What This Does
 
 A **real-time location-based system** where:
-- ✅ Users mark "Green Spots" (safe zones) using their **actual GPS coordinates**
-- ✅ **ALL users** can see spots marked by everyone
-- ✅ Spots are saved permanently in the browser (IndexedDB)
-- ✅ Works offline after first load
-- ✅ Shows distance from your location to each spot
+-  Users mark "Green Spots" (safe zones) using their **actual GPS coordinates**
+-  **ALL users** can see spots marked by everyone
+-  Spots are saved permanently in the browser (IndexedDB)
+-  Works offline after first load
+-  Shows distance from your location to each spot
 
 ---
 
-## 🚀 How to Use
+##  How to Use
 
 ### **Step 1: Allow Location Access**
 
@@ -27,8 +27,8 @@ When you open the page, your browser will ask:
 ### **Step 2: Wait for GPS Lock**
 
 Top of page shows:
-- ❌ `📍 Getting your location...` → Wait
-- ✅ `✅ GPS Active` → Ready!
+-  Getting your location...` → Wait
+-  GPS Active` → Ready!
 
 Your coordinates appear: `28.123456, 77.654321`
 
@@ -39,13 +39,13 @@ Your coordinates appear: `28.123456, 77.654321`
    - **Category:** Select type (Safe Zone, Medical, Food, etc.)
    - **Additional Info:** Optional details
 
-2. **Click "🟢 Add Green Spot"**
+2. **Click " Add Green Spot"**
 
 3. **What happens:**
-   - ✅ Spot is marked at YOUR CURRENT GPS location
-   - ✅ Green marker appears on map
-   - ✅ Saved to database
-   - ✅ ALL users can now see it!
+   - Spot is marked at YOUR CURRENT GPS location
+   -  Green marker appears on map
+   -  Saved to database
+   -  ALL users can now see it!
 
 ### **Step 4: View All Spots**
 
@@ -70,35 +70,35 @@ Use filter buttons:
 
 ---
 
-## 🌟 Key Features
+##  Key Features
 
-### 1️⃣ **Real GPS Coordinates**
-- Uses `navigator.geolocation` API
+###  **Real GPS Coordinates**
+- Usss `navigator.geolocation` API
 - Gets your **actual device location**
 - Continuously updates your position
 - High accuracy mode enabled
 
-### 2️⃣ **Multi-User Sharing**
-- **Everyone** who opens the page sees ALL spots
+### 2️ **Multi-User Sharing**
+- **veryone** who opens the page sees ALL spots
 - Spots saved in IndexedDB (local database)
 - No server needed - peer-to-peer concept
 - Data persists across browser sessions
 
-### 3️⃣ **Smart Distance Calculation**
+### 3️ **Smart Distance Calculation**
 - Calculates real distance using Haversine formula
 - Shows in meters (< 1km) or kilometers
 - Updates based on your current location
 
-### 4️⃣ **Category System**
+### 4️ **Category System**
 Different types of green spots:
-- 🛡️ **Safe Zone** - General safe areas
-- 🏥 **Medical** - Hospitals, clinics
-- 🍽️ **Food** - Food/water sources
-- 🏠 **Shelter** - Temporary shelters
-- 📡 **Communication** - Signal hubs
-- 🤝 **Meeting Point** - Gathering places
+-  **Safe Zone** - General safe areas
+-  **Medical** - Hospitals, clinics
+-  **Food** - Food/water sources
+-  **Shelter** - Temporary shelters
+-  **Communication** - Signal hubs
+-  **Meeting Point** - Gathering places
 
-### 5️⃣ **Interactive Map**
+### 5️ **Interactive Map**
 - Click markers to see details
 - Zoom in/out
 - Pan around
@@ -106,23 +106,22 @@ Different types of green spots:
 
 ---
 
-## 🎮 Controls Explained
-
-### **📍 Find My Location**
+##  Controls Explained
+### ** Find My Location**
 - Centers map on your current position
 - Opens your location popup
 
-### **🟢 Mark Green Spot Here**
+### ** Mark Green Spot Here**
 - Scrolls to the form
 - Ready to add new spot
 
-### **🔄 Refresh Spots**
+### ** Refresh Spots**
 - Reloads all spots from database
 - Updates the list and map
 
 ---
 
-## 📊 How It Works (Technical)
+##  How It Works (Technical)
 
 ### **GPS Tracking:**
 ```javascript
@@ -153,38 +152,38 @@ IndexedDB → GreenSpotDB
 
 ---
 
-## 🧪 Testing Scenarios
+##  Testing Scenarios
 
 ### **Test 1: Add Your First Spot**
 1. Allow location access
 2. Wait for GPS lock
 3. Fill form: "My Home - Safe Zone"
 4. Click "Add Green Spot"
-5. ✅ See marker on map at your location!
+5.  See marker on map at your location!
 
 ### **Test 2: Multiple Users**
 1. Open in another browser/device
 2. Allow location there too
 3. Add a different spot
-4. ✅ Both users see BOTH spots!
+4.  Both users see BOTH spots!
 
 ### **Test 3: Filter by Category**
 1. Add spots of different categories
 2. Click "Medical" filter
-3. ✅ Only medical spots shown
+3.  Only medical spots shown
 
 ### **Test 4: Distance Calculation**
 1. Add a spot
 2. Move to different location (or simulate)
-3. ✅ Distance updates automatically
+3.  Distance updates automatically
 
 ---
 
-## 🔧 Troubleshooting
+##  Troubleshooting
 
 ### **"Location access denied"**
 **Fix:**
-1. Click the 🔒 lock icon in browser address bar
+1. Click the  lock icon in browser address bar
 2. Allow location permissions
 3. Refresh page
 
@@ -196,7 +195,7 @@ IndexedDB → GreenSpotDB
 
 ### **"Spots not appearing"**
 **Fix:**
-1. Click "🔄 Refresh Spots"
+1. Click " Refresh Spots"
 2. Check browser console (F12) for errors
 3. Clear IndexedDB and try again
 
@@ -208,7 +207,7 @@ IndexedDB → GreenSpotDB
 
 ---
 
-## 🌍 Use Cases
+##  Use Cases
 
 ### **Emergency Situations:**
 - Mark safe buildings during disaster
@@ -228,7 +227,7 @@ IndexedDB → GreenSpotDB
 
 ---
 
-## 💾 Data Persistence
+##  Data Persistence
 
 ### **Stored Locally:**
 - All spots saved in browser's IndexedDB
@@ -247,7 +246,7 @@ In real deployment, you'd add:
 
 ---
 
-## 📱 Mobile Usage
+##  Mobile Usage
 
 Works great on mobile devices!
 
@@ -265,7 +264,7 @@ Works great on mobile devices!
 
 ---
 
-## 🎯 Quick Reference
+##  Quick Reference
 
 | Action | How To |
 |--------|--------|
@@ -290,3 +289,4 @@ Works great on mobile devices!
 ---
 
 **✅ Ready to map safe zones! 🗺️**
+
